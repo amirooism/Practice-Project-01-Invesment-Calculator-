@@ -5,11 +5,12 @@ import { useState } from "react";
 
 function App() {
   const [userInput, setUserInput] = useState({
-    initialInvestment: 1000,
+    initialInvestment: 15000,
     annualInvestment: 1200,
     expectedReturn: 6,
     duration: 10,
   });
+  const inputIsValid = userInput.duration >= 1;
 
   function handleUserInput(inputIdentifier, newValue) {
     setUserInput((prevUserInput) => ({
@@ -17,11 +18,15 @@ function App() {
       [inputIdentifier]: +newValue,
     }));
   }
+
   return (
     <>
       <Header />;
       <UserInput userInput={userInput} onChange={handleUserInput} />
-      <Result input={userInput} />
+      {!inputIsValid && (
+        <p className="center">Please Enter a duration greater than zero</p>
+      )}
+      {inputIsValid && <Result input={userInput} />}
     </>
   );
 }
